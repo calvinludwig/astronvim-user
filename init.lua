@@ -37,7 +37,7 @@ local config = {
     options = {
         opt = {
             relativenumber = false, -- sets vim.opt.relativenumber
-            guifont = { "Iosevka", ":h18" },
+            guifont = { "JetbrainsMono Nerd Font", ":h16" },
             -- Tabs
             expandtab = true,
             softtabstop = 4,
@@ -46,6 +46,9 @@ local config = {
         },
         g = {
             mapleader = " ", -- sets vim.g.mapleader
+            neovide_cursor_vfx_mode = "railgun",
+            neovide_cursor_trail_length = 0.8,
+            catppuccin_flavour = "mocha",
         },
     },
 
@@ -53,9 +56,7 @@ local config = {
     default_theme = {
         diagnostics_style = { italic = true },
         -- Modify the color table
-        colors = {
-            fg = "#abb2bf",
-        },
+        colors = { fg = "#abb2bf" },
         plugins = { -- enable or disable extra plugin highlighting
             aerial = true,
             beacon = false,
@@ -63,7 +64,7 @@ local config = {
             dashboard = true,
             highlighturl = true,
             hop = false,
-            indent_blankline = true,
+            indent_blankline = false,
             lightspeed = false,
             ["neo-tree"] = true,
             notify = true,
@@ -78,10 +79,7 @@ local config = {
     },
 
     -- Disable AstroNvim ui features
-    ui = {
-        nui_input = true,
-        telescope_select = true,
-    },
+    ui = { nui_input = true, telescope_select = true },
 
     -- Configure plugins
     plugins = {
@@ -89,6 +87,7 @@ local config = {
         init = {
             -- You can disable default plugins as follows:
             -- ["goolord/alpha-nvim"] = { disable = true },
+            ["lukas-reineke/indent-blankline.nvim"] = { disable = true },
 
             -- You can also add new plugins here as well:
             -- { "andweeb/presence.nvim" },
@@ -116,14 +115,16 @@ local config = {
             config.sources = {
                 null_ls.builtins.formatting.rufo,
                 null_ls.builtins.diagnostics.rubocop,
-
                 -- Lua
                 null_ls.builtins.formatting.stylua,
                 null_ls.builtins.diagnostics.luacheck,
                 null_ls.builtins.completion.luasnip,
-
                 -- Rust
                 null_ls.builtins.formatting.rustfmt,
+                -- PHP
+                null_ls.builtins.diagnostics.php,
+                null_ls.builtins.diagnostics.psalm,
+                null_ls.builtins.formatting.pint,
             }
             -- set up null-ls's on_attach function
             config.on_attach = function(client)
@@ -139,11 +140,18 @@ local config = {
             return config -- return final config table
         end,
         treesitter = {
-            ensure_installed = { "lua", "rust", "css", "html", "javascript", "typescript", "php", "dart" },
+            ensure_installed = {
+                "lua",
+                "rust",
+                "css",
+                "html",
+                "javascript",
+                "typescript",
+                "php",
+                "dart",
+            },
         },
-        ["nvim-lsp-installer"] = {
-            ensure_installed = { "sumneko_lua" },
-        },
+        ["nvim-lsp-installer"] = { ensure_installed = { "sumneko_lua" } },
         packer = {
             compile_path = vim.fn.stdpath("data") .. "/packer_compiled.lua",
         },
@@ -154,9 +162,7 @@ local config = {
         -- Add paths for including more VS Code style snippets in luasnip
         vscode_snippet_paths = {},
         -- Extend filetypes
-        filetype_extend = {
-            javascript = { "javascriptreact" },
-        },
+        filetype_extend = { javascript = { "javascriptreact" } },
     },
 
     -- Modify which-key registration
@@ -228,10 +234,7 @@ local config = {
     },
 
     -- Diagnostics configuration (for vim.diagnostics.config({}))
-    diagnostics = {
-        virtual_text = true,
-        underline = true,
-    },
+    diagnostics = { virtual_text = true, underline = true },
 
     mappings = {
         -- first key is the mode
