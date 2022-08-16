@@ -48,7 +48,7 @@ local config = {
             mapleader = " ", -- sets vim.g.mapleader
             neovide_cursor_vfx_mode = "railgun",
             neovide_cursor_trail_length = 0.8,
-            catppuccin_flavour = "mocha",
+            catppuccin_flavour = "latte",
         },
     },
 
@@ -88,6 +88,7 @@ local config = {
             -- You can disable default plugins as follows:
             -- ["goolord/alpha-nvim"] = { disable = true },
             ["lukas-reineke/indent-blankline.nvim"] = { disable = true },
+            ["p00f/nvim-ts-rainbow"] = { disable = true },
 
             -- You can also add new plugins here as well:
             -- { "andweeb/presence.nvim" },
@@ -98,6 +99,12 @@ local config = {
             --     require("lsp_signature").setup()
             --   end,
             -- },
+            {
+                "simrat39/rust-tools.nvim",
+                config = function()
+                    require("rust-tools").setup({})
+                end,
+            },
             {
                 "catppuccin/nvim",
                 as = "catppuccin",
@@ -119,6 +126,10 @@ local config = {
                 null_ls.builtins.formatting.stylua,
                 null_ls.builtins.diagnostics.luacheck,
                 null_ls.builtins.completion.luasnip,
+                -- TS JS
+                null_ls.builtins.formatting.eslint_d,
+                null_ls.builtins.code_actions.eslint_d,
+                null_ls.builtins.diagnostics.eslint_d,
                 -- Rust
                 null_ls.builtins.formatting.rustfmt,
                 -- PHP
@@ -218,6 +229,21 @@ local config = {
 
         -- Add overrides for LSP server settings, the keys are the name of the server
         ["server-settings"] = {
+            ["server-settings"] = {
+                ["rust-analyzer"] = {
+                    checkOnSave = {
+                        allFeatures = true,
+                        overrideCommand = {
+                            "cargo",
+                            "clippy",
+                            "--workspace",
+                            "--message-format=json",
+                            "--all-targets",
+                            "--all-features",
+                        },
+                    },
+                },
+            },
             -- example for addings schemas to yamlls
             -- yamlls = {
             --   settings = {
