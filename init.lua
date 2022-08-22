@@ -18,7 +18,7 @@ local config = {
     },
 
     -- Set colorscheme
-    colorscheme = "catppuccin",
+    colorscheme = "blackwind",
 
     -- Override highlight groups in any theme
     highlights = {
@@ -48,7 +48,7 @@ local config = {
             mapleader = " ", -- sets vim.g.mapleader
             neovide_cursor_vfx_mode = "railgun",
             neovide_cursor_trail_length = 0.8,
-            catppuccin_flavour = "latte",
+            catppuccin_flavour = "mocha",
         },
     },
 
@@ -111,6 +111,10 @@ local config = {
                 config = function()
                     require("catppuccin").setup({})
                 end,
+            },
+            {
+                "calvinludwig/blackwind.nvim",
+                as = "blackwind",
             },
         },
         -- All other entries override the setup() call for default plugins
