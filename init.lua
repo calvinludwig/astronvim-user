@@ -3,7 +3,7 @@ local config = {
     -- Configure AstroNvim updates
     updater = {
         remote = "origin", -- remote to use
-        channel = "nightly", -- "stable" or "nightly"
+        channel = "stable", -- "stable" or "nightly"
         version = "latest", -- "latest", tag name, or regex search like "v1.*" to only do updates before v2 (STABLE ONLY)
         branch = "main", -- branch name (NIGHTLY ONLY)
         commit = nil, -- commit hash (NIGHTLY ONLY)
@@ -18,7 +18,7 @@ local config = {
     },
 
     -- Set colorscheme
-    colorscheme = "blackwind",
+    colorscheme = "catppuccin",
 
     -- Override highlight groups in any theme
     highlights = {
@@ -100,9 +100,31 @@ local config = {
             --   end,
             -- },
             {
-                "simrat39/rust-tools.nvim",
+                "jose-elias-alvarez/typescript.nvim",
+                after = "mason-lspconfig.nvim",
                 config = function()
-                    require("rust-tools").setup({})
+                    require("typescript").setup({
+                        server = astronvim.lsp.server_settings("tsserver"),
+                    })
+                end,
+            },
+            {
+                "akinsho/flutter-tools.nvim",
+                requires = "nvim-lua/plenary.nvim",
+                after = "mason-lspconfig.nvim", -- make sure to load after mason-lspconfig
+                config = function()
+                    require("flutter-tools").setup({
+                        lsp = astronvim.lsp.server_settings("dartls"), -- get the server settings and built in capabilities/on_attach
+                    })
+                end,
+            },
+            {
+                "simrat39/rust-tools.nvim",
+                after = "mason-lspconfig.nvim", -- make sure to load after mason-lspconfig
+                config = function()
+                    require("rust-tools").setup({
+                        server = astronvim.lsp.server_settings("rust_analyzer"), -- get the server settings and built in capabilities/on_attach
+                    })
                 end,
             },
             {
@@ -113,8 +135,19 @@ local config = {
                 end,
             },
             {
-                "calvinludwig/blackwind.nvim",
+                "/home/me/src/blackwind.nvim",
                 as = "blackwind",
+            },
+            {
+                "shaunsingh/nord.nvim",
+                as = "nord",
+            },
+        },
+        ["mason-lspconfig"] = {
+            ensure_installed = {
+                "tsserver",
+                "dartls",
+                "rust_analyzer",
             },
         },
         -- All other entries override the setup() call for default plugins
@@ -212,6 +245,11 @@ local config = {
 
     -- Extend LSP configuration
     lsp = {
+        skip_setup = {
+            "tsserver",
+            "dartls",
+            "rust_analyzer",
+        },
         -- enable servers that you already have installed without lsp-installer
         servers = {
             -- "pyright"
