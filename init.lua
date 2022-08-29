@@ -139,15 +139,12 @@ local config = {
 			},
 		},
 	},
-
-	-- Diagnostics configuration (for vim.diagnostics.config({}))
 	diagnostics = {
-		virtual_text = true,
+		virtual_text = false,
 		underline = true,
 		signs = true,
 		update_in_insert = false,
 	},
-
 	mappings = {
 		-- first key is the mode
 		n = {
